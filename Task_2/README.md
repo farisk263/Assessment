@@ -14,7 +14,17 @@ Perform the analysis, which requires some study on the background of oil palm tr
   - It has 8 numerical variable & 1 timedate variable that will be used later for descriptive analysis.
     
 - ### EDA
- 
+  - **_New Features created_**
+    
+    ```
+    # Create new features based on existing ones
+    df["Total FFB"] = df["FFB_Yield"] * df["HA_Harvested"]
+    df["Total FFB per Working Day"] = df["Total FFB"] / df["Working_days"]
+
+    # Convert the date to a datetime object
+    df['Date'] = pd.to_datetime(df['Date'], format='%d.%m.%Y')
+    ```
+    
   - **_Correlation for FFB Yield_**
  
     ```
