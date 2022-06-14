@@ -1,6 +1,6 @@
 # Palm oil's FFB Yield
 
-![Palm Oil]](https://cdn.mos.cms.futurecdn.net/mGdgtbdLgJSGEt9Lv9aZuJ-1200-80.jpg)
+![Palm Oil](https://cdn.mos.cms.futurecdn.net/mGdgtbdLgJSGEt9Lv9aZuJ-1200-80.jpg)
 ## Introduction
 
 A team of plantation planners are concerned about the yield of oil palm trees, which seems to fluctuate. They have collected a set of data and needed help in analysing on how external factors influence fresh fruit bunch (FFB) yield. Some experts are of opinion that the flowering of oil palm tree determines the FFB yield, and are linked to the external factors.
@@ -11,71 +11,48 @@ Perform the analysis, which requires some study on the background of oil palm tr
 ## Descriptive Analytics
 
 - ### Data Information
-  - It has 9 variable that will be used later for descriptive analysis.
+  - It has 8 numerical variable & 1 timedate variable that will be used later for descriptive analysis.
     
 - ### EDA
-  - **_Distribution of the additives ?_**
+  - **_Relationship between FFB Yield & Precipitation_**
  
-    ![dist_additives](https://user-images.githubusercontent.com/63250608/173683738-731986b3-6c0c-4b4d-bf66-30d22a0f54ad.png)
-
-  - **_Boxplot for the additives._**
-   
-    ![box_additives](https://user-images.githubusercontent.com/63250608/173684012-f9c33aa4-4330-40a8-937e-52b5024d603f.png)
+    ![ffbvsprec](https://user-images.githubusercontent.com/63250608/173700826-ad88d990-0562-4c7f-b7e5-7f125516f7bf.png)
     
-  - **_QQplot used to check distribution normality._**
+    Apparently, **FFB_Yield** moves in line with precipitation. Based on the graph above, the yield was fluctuated & seems to drop in the 1st quarter of every year (Jan-March). The water-limited yield is an important benchmark as most of the oil palm cropping systems are rain-fed. Yield reduced if rainfail less than 2000 mm/yr or more than 3500 mm/yr and/or less than 100 mm/yr ([Yield gaps in oil palm: A quantitative review of contributing factors](https://reader.elsevier.com/reader/sd/pii/S1161030116302131?token=C26C735E785F32E0207E3A09E2A3DCD8E9F5350B4670E5D23EF888EF992F21301F374C1359FD5CFA350550E9746918A0&originRegion=eu-west-1&originCreation=20220614155939)).
+
+  - **_Correlation for Precipitation_**
+
+
+    ```
+    SoilMoisture                 0.552001
+    Min_Temp                     0.345944
+    FFB_Yield                    0.289604
+    Total FFB                    0.232475
+    Total FFB per Working Day    0.195985
+    Working_days                 0.127897
+    HA_Harvested                -0.265866
+    Average_Temp                -0.369386
+    Max_Temp                    -0.461117
+    Name: Precipitation, dtype: float64
+    ```
   
-    ![qqplot](https://user-images.githubusercontent.com/63250608/173684200-b4c28396-bea8-4e27-b3c9-c0ae2aa3e25a.png)
+    Eventually, **Precipitation** has high correlation with **SoilMoisture** as soil water availability depends on the influx of water (rainfall, irrigation, and groundwater), the loss of water (evapotranspiration, drainage, and surface water run-off), and the previous soil water reserve. Precipitation had effects on soil moisture in about 91% in a study ([Quantifying the Effects of Climate and Vegetation
+  on Soil Moisture in an Arid Area, China](https://www.mdpi.com/2073-4441/11/4/767/pdf#:~:text=soil%20moisture%20variability.-,Precipitation%20had%20effects%20on%20soil%20moisture%20in%20about%2091%25%20of,87%25%20of%20the%20study%20area.)).
     
-  - **_Hypothesis Testing using Kruskal-Wallis between additives_**
-
-    From above graphs we can find out that Additive C has bimodal & most of the additives are not in normal distribution. Due to this, I have decided to perform non parametric test like **Kruskal-Wallis** test to find out if there is any significant difference between the additives or not. So the null hypothesis built on the current case is, all additives are the same while the alternative hypothesis is the additives have significant difference. 
+  - **_Seasonal decomposition for FFB Yield Datapoints_**
   
-    `KruskalResult(statistic=1707.6383280751495, pvalue=0.0)`
+    ![season](https://user-images.githubusercontent.com/63250608/173701120-3e4a6643-9609-48ac-8b5a-bce553b16ea2.png)
     
-    As the P value is below significance level, which is 0.05, the null hypothesis is rejected. The test shows that the additives are indeed difference with each other. 
+    Seasonal decompose was also executed on **FFB_Yield** datapoints to seperate seasonality & trend. We have observed that there was a sudden drop of FFB yield in 2016 due to El Nino. For the full year of 2016, Malaysia’s total palm oil production fell 13.2% to 17.32 million tonnes, from 19.96 million tonnes in 2015, due to lingering effects of the 2015 El Nino weather phenomenon which affected oil yields ([Palm oil production down 13.2% in 2016 on after-effects of El Nino](https://www.theedgemarkets.com/article/palm-oil-production-down-132-2016-after-effects-el-nino)). 
     
-  - **_Correlation between two highly correlated additives_**
+  - **_FFB Yield Trendline for per month from 2008 to 2018_**
 
-    ![heatmap](https://user-images.githubusercontent.com/63250608/173684797-e70e96d0-3ab2-46ac-9f5a-a523d5222cb9.png)
+     ![ffb_trendline](https://user-images.githubusercontent.com/63250608/173701329-8285ea5f-c902-4cbd-a35d-be8d7372c79b.png)
+     
+     Based on the graph above, obviously for from year 2008 to 2018, FFB yield is the highest in October & the lowest in February.
     
-    Seems like Additive A & G is highly positively linear with correlation coefficient of value 0.81. Quantifying a relationship between two variables using the correlation coefficient only tells half the story, because it measures the strength of a relationship in samples only. If we obtained a different sample, we would obtain different correlation coefficient values, and therefore potentially different conclusions. 
+  - **_Working Days & FFB Yield Relationship_**
 
-The alternative hypothesis is always what we are trying to prove, in our case, we try to prove that there is a significant correlation between additive A and G in the population (i.e. ρ ≠ 0).
+    ![workvsffb](https://user-images.githubusercontent.com/63250608/173701429-c065dd3e-c0ed-4a59-ae1f-ed5bfad76f22.png)
 
-The null hypothesis is the hypothesis that we are trying to provide evidence against, in our case, we try to provide evidence againt the hypothesis that there is not a significant linear correlation between additive A and G in the population (i.e. ρ = 0)
-
-**Mann-Whitney U** Test is performed in hypothesis testing procedure.
-
-    `MannwhitneyuResult(statistic=0.0, pvalue=6.41324618896848e-72)`
-    
-    Since the p value of the Mann-Whitney U test is below the significance level, 0.05, we reject the null hypothesis in favor of the alternative. We conclude that the correlation is statically significant at population level.
-    
-## Model Development
-  - Standard Scaler was used & decompose it into 2 principal components as part of dimensionality reduction procedure.
-
-    ![pca](https://user-images.githubusercontent.com/63250608/173685550-70c30316-b6a0-4af6-837d-5669c4b894a1.png)
-
-    ![pca_variance](https://user-images.githubusercontent.com/63250608/173685752-364e4c75-1633-4737-9d56-f6af79a39f19.PNG)
-
-    
-    Principal component 1 & 2 was plotted into a graph. Principal component 1 & 2 were composed of 0.27% & 0.22% of variance from the original dataset. The total variance covered by both Principal Components were 0.5068%
-    
-  - Unsupervised learning was used to perform clustering
-
-    ![elbow](https://user-images.githubusercontent.com/63250608/173686081-f25f3564-227a-4946-ad4e-2ac7131f1107.png)
-
-    Elbow method was used to find out the optimal cluster to used in K Means clustering algorithm. WCSS is the sum of squared distance between each point and the centroid in a cluster. As the number of clusters increases, the WCSS value will start to decrease.
-    
-  - K-Means:
-    
-    ![kmeans](https://user-images.githubusercontent.com/63250608/173686241-c413692f-d19c-4f8d-ab58-6fe066345986.png)
-
-    Clustering the principal components using K Means algorithm which been plotted into 3 clusters. K Means is really senstive to outliers as it considers it as one of the cluster as well. In graph above, K Means predicted there are 3 formulation existed based on the created principal components.
-  
-  - DBSCAN:
-
-    ![DBSCAN](https://user-images.githubusercontent.com/63250608/173686436-c81fe950-283a-454b-80fc-b623826da6cc.png)
-    
-    DBSCAN algorithm was tested as well with the principal components. DBSCAN is more robust with outliers as it excluded them from any cluster. It detects there are 4 difference clusters / formulation exist in the dataset instead. In graph above, cluster -1 is consider as outliers.
-    
-   
+     Between working days & FFB Yield, there is a slight positive correlation. FFB need to be harvested & performed any other maintenaince on it during working days. Beside harvesting, worers also need to apply fertiliser, clear overgrowth or remove decaying fronds from the trees ([Malaysia’s palm oil yield to continue declining on labour shortage](https://www.theedgemarkets.com/article/malaysias-palm-oil-yield-continue-declining-labour-shortage)). Eventhough not necessarily, high working days do increase FFB yield.
