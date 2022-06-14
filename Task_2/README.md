@@ -14,6 +14,23 @@ Perform the analysis, which requires some study on the background of oil palm tr
   - It has 8 numerical variable & 1 timedate variable that will be used later for descriptive analysis.
     
 - ### EDA
+ 
+  - **_Correlation for FFB Yield_**
+ 
+    ```
+    Total FFB                    0.971782
+    Total FFB per Working Day    0.934225
+    Precipitation                0.289604
+    Working_days                 0.116364
+    Min_Temp                     0.103830
+    SoilMoisture                -0.003183
+    Average_Temp                -0.005494
+    Max_Temp                    -0.071201
+    HA_Harvested                -0.350222
+    ```
+    
+    Correlation value for **FFB_Yield** was plotted against other features. Features like **Total FFB** & **Total FFB per Working Day** & **HA_Harvested** was ignored to avoid multicollinearity issue. **Precipitation** was found out to be has high correlation with **FFB_Yield**.
+ 
   - **_Relationship between FFB Yield & Precipitation_**
  
     ![ffbvsprec](https://user-images.githubusercontent.com/63250608/173700826-ad88d990-0562-4c7f-b7e5-7f125516f7bf.png)
