@@ -1,16 +1,6 @@
-# Data Science Fundamentals Lab
+# Assessment for ACE Resources
 
-<p>
-  <p align="left">
-    <a href="https://github.com/CertifaiAI/machine-learning-fundamentals/blob/main/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/CertifaiAI/machine-learning-fundamentals.svg">
-    </a>
-    <a href="https://discord.com/invite/WsBFgNP">
-        <img alt="Discord" src="https://img.shields.io/discord/699181979316387842?color=informational">
-    </a>
-</p>
-
-This repository contains Jupyter notebooks used for training during the hands-on session.
+This repository contains Jupyter notebooks used for analyzing two case studies.
 
 ## Dependencies
 
