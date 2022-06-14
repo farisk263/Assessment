@@ -17,60 +17,48 @@ C) A clustering test of your choice (unsupervised learning), to determine the di
 ## Descriptive Analytics
 
 - ### Data Information
-  - It has about 31 features & 1 target variable that will be used later for model training to predict either the guest would cancel the booking or not. 
-  - The dataset consists of 20 numerical data & 12 categorical data, including the target variable.
-  - The target variable would be `is_canceled` column which contain integer value of 1 and 0. 1 indicates guests will cancel the booking while 0 is not.
+  - It has 9 additives/variable that will be used later for descriptive analysis.
     
 - ### EDA
-  - **_How many repeated guests decided to cancel booking ?_**
+  - **_Distribution of the additives ?_**
  
-    ![booking repeated_guests](https://user-images.githubusercontent.com/63250608/165352175-e00135e9-3f53-4d1a-a80a-3df7b796ba3b.png)
-    
-    ```
-    Percentage of repeated guests who:- 
-    Cancelled: 14.6471%
-    Not Cancelled: 85.3529%
-    ```
-    
-    We can pretty much understand that, mostly of the repeated guests tend to not cancel their bookings. About 85% of the repeated guests decided to proceed with their bookings and stayed at the respective hotels. Only ~15% of them cancelled the bookings because of any other unplanned events.
-    
-  - **_Identified how much guests paid for a night & how the price fluctuated over the year._**
+    ![dist_additives](https://user-images.githubusercontent.com/63250608/173683738-731986b3-6c0c-4b4d-bf66-30d22a0f54ad.png)
 
-    ```
-    Average cost per person for each hotel per night for at average of all room types:- 
-    Resort Hotel: 47.49 €
-    City Hotel: 59.27 €
-    ```
+  - **_Boxplot for the additives._**
+   
+    ![box_additives](https://user-images.githubusercontent.com/63250608/173684012-f9c33aa4-4330-40a8-937e-52b5024d603f.png)
     
-    Above are the average room costs per night regardless of the meal & room types. It only covers the actual guests who really come & stay at the hotels. It does not include guests who cancelled their booking. Price is in EUR as the hotels are operated in Portugal.
-    
-    ![average_room_price](https://user-images.githubusercontent.com/63250608/165353847-410128ef-0d94-45c1-834f-50306f342b86.png)
-    
-    The graph explained that during summer season (June - September), the price per night at Resort Hotel spiked as people tend to go to beaches. The demand spiked & triggered the price to jack up even more during that time. Moreover, the price at City Hotel peaked in May & September. The vertical line shown the max price for the respective hotels in a year.
-    
-  - **_Finding the difference of average total nights stayed between guests who has family & no family._**
+  - **_QQplot used to check distribution normality._**
   
-    ![night_stay_family](https://user-images.githubusercontent.com/63250608/165354592-a6326459-709b-4539-a20b-046c9f3b6e49.png)
+    ![qqplot](https://user-images.githubusercontent.com/63250608/173684200-b4c28396-bea8-4e27-b3c9-c0ae2aa3e25a.png)
     
-    Based on the graph above, we can understand that guests which came as family, tend to go for longer stay compared to individual / couple. This is totally understandable as family tends to go for longer vacation compared to individual, who some of them potentially just went for short business trip. We also can see that guests favored to stay longer at resort hotel than city hotel.
-    
-  - **_How long people stay at the hotels ?_**
+  - **_Hypothesis Testing using Kruskal-Wallis between additives_**
 
-    ![length_stay](https://user-images.githubusercontent.com/63250608/165354819-fed2d86a-dcb1-42f7-baf8-427e6e9a8705.png)
+    From above graphs we can find out that Additive C has bimodal & most of the additives are not in normal distribution. Due to this, I have decided to perform non parametric test like **Kruskal-Wallis** test to find out if there is any significant difference between the additives or not. So the null hypothesis built on the current case is, all additives are the same while the alternative hypothesis is the additives have significant difference. 
+  
+    `KruskalResult(statistic=1707.6383280751495, pvalue=0.0)`
     
-    Based on the graph above, both resort & city hotel, most of the guests stayed from 1 - 4 nights. However, 7 nights stay can be well liked by the resort hotel's guests as well. Minority of resort hotel's guests also liked to stay in until 14 nights stays.
+    As the P value is below significance level, which is 0.05, the null hypothesis is rejected. The test shows that the additives are indeed difference with each other. 
     
-  - **_Number of bookings got canceled due to high lead time_**
+  - **_Correlation between two highly correlated additives_**
 
-    ![lead_time_over_cancellation](https://user-images.githubusercontent.com/63250608/165355236-ef378083-b120-4bc0-85e6-697d81b0ea57.png)
+    ![heatmap](https://user-images.githubusercontent.com/63250608/173684797-e70e96d0-3ab2-46ac-9f5a-a523d5222cb9.png)
+    
+    Seems like Additive A & G is highly positively linear with correlation coefficient of value 0.81. Quantifying a relationship between two variables using the correlation coefficient only tells half the story, because it measures the strength of a relationship in samples only. If we obtained a different sample, we would obtain different correlation coefficient values, and therefore potentially different conclusions. 
 
-    It shows that,number of people cancelling their booking is higher than not when the lead time is higher than 50 days (cancellation rate is higher at this point).
+The alternative hypothesis is always what we are trying to prove, in our case, we try to prove that there is a significant correlation between additive A and G in the population (i.e. ρ ≠ 0).
+
+The null hypothesis is the hypothesis that we are trying to provide evidence against, in our case, we try to provide evidence againt the hypothesis that there is not a significant linear correlation between additive A and G in the population (i.e. ρ = 0)
+
+**Mann-Whitney U** Test is performed in hypothesis testing procedure.
+
+    `MannwhitneyuResult(statistic=0.0, pvalue=6.41324618896848e-72)`
+    
+    Since the p value of the Mann-Whitney U test is below the significance level, 0.05, we reject the null hypothesis in favor of the alternative. We conclude that the correlation is statically significant at population level.
     
   - **_Find out the busiest month for hotels_**
 
-    ![booking_trend](https://user-images.githubusercontent.com/63250608/165355548-06693be7-ee0b-4be2-80cf-c12d89801fa9.png)
-
-    From graph above, both hotels are pretty much occupied in summer (June - September) due to holiday season. Bookings are pretty much less during winter season (December - March).
+   
     
   - **_Find out the daily price relationship with length of stay_**
     
