@@ -56,87 +56,32 @@ The null hypothesis is the hypothesis that we are trying to provide evidence aga
     
     Since the p value of the Mann-Whitney U test is below the significance level, 0.05, we reject the null hypothesis in favor of the alternative. We conclude that the correlation is statically significant at population level.
     
-  - **_Find out the busiest month for hotels_**
-
-   
-    
-  - **_Find out the daily price relationship with length of stay_**
-    
-    ![length_stay_over_price](https://user-images.githubusercontent.com/63250608/165355842-bf26de5b-1b74-4a2b-b9cf-3f758691a130.png)
-
-    Average daily price for city hotel spiked at 24 days length of stay. Most of the time, resort hotel daily room price can be considered much cheaper than city hotel daily rate. This may possible due to high land value in the city & high land rental cost which cause the daily room rate to be much expensive. Higher length of stay for resort hotel means cheaper price while city hotel's does not have the same effect.
-    
-
 ## Model Development
-  - Correlation against target variable was first been calculated prior model training:
+  - Standard Scaler was used & decompose it into 2 principal components as part of dimensionality reduction procedure.
 
-    ![correlation](https://user-images.githubusercontent.com/63250608/165358574-dd342176-8d06-4d0f-87e7-56cfc6c46c49.png)
+    ![pca](https://user-images.githubusercontent.com/63250608/173685550-70c30316-b6a0-4af6-837d-5669c4b894a1.png)
 
-    ```
-    lead_time                         0.293123
-    total_of_special_requests         0.234658
-    required_car_parking_spaces       0.195498
-    booking_changes                   0.144381
-    previous_cancellations            0.110133
-    is_repeated_guest                 0.084793
-    agent                             0.083114
-    adults                            0.060017
-    previous_bookings_not_canceled    0.057358
-    days_in_waiting_list              0.054186
-    adr                               0.047557
-    babies                            0.032491
-    stays_in_week_nights              0.024765
-    company                           0.020642
-    arrival_date_year                 0.016660
-    arrival_date_week_number          0.008148
-    arrival_date_day_of_month         0.006130
-    children                          0.005048
-    stays_in_weekend_nights           0.001791
-    Name: is_canceled, dtype: float64
-    ```
+    ![pca_variance](https://user-images.githubusercontent.com/63250608/173685752-364e4c75-1633-4737-9d56-f6af79a39f19.PNG)
+
     
-    We have identified the 5 important numerical features which is highly correlated with booking cancellation status. They are lead time, special requests, car parking spaces required, booking changes & number of previous cancellation.
+    Principal component 1 & 2 was plotted into a graph. Principal component 1 & 2 were composed of 0.27% & 0.22% of variance from the original dataset. The total variance covered by both Principal Components were 0.5068%
     
-  - Multiple machine learning classification models were tested against the dataset, eg: Random Forest, Logistic regression, XGBoost & Decision Tree.
+  - Unsupervised learning was used to perform clustering
+
+    ![elbow](https://user-images.githubusercontent.com/63250608/173686081-f25f3564-227a-4946-ad4e-2ac7131f1107.png)
+
+    Elbow method was used to find out the optimal cluster to used in K Means clustering algorithm. WCSS is the sum of squared distance between each point and the centroid in a cluster. As the number of clusters increases, the WCSS value will start to decrease.
     
-  - Model Evaluation:
+  - K-Means:
     
-    ```
-    F1 Score values for each models:
-    DecisionTree model: 0.8215
-    RandomForest model: 0.8623
-    LogisticRegression model: 0.7811
-    XGBoost model: 0.8412
-    ```
+    ![kmeans](https://user-images.githubusercontent.com/63250608/173686241-c413692f-d19c-4f8d-ab58-6fe066345986.png)
+
+    Clustering the principal components using K Means algorithm which been plotted into 3 clusters. K Means is really senstive to outliers as it considers it as one of the cluster as well. In graph above, K Means predicted there are 3 formulation existed based on the created principal components.
   
-  - Model Debugging using ELI5:
+  - DBSCAN:
 
-    | Feature | Weight | Std |
-    | --- | --- | --- |
-    | lead_time | 0.143413 | 0.014738 |
-    | deposit_type_Non Refund |	0.132847 |	0.110055 |
-    |	adr |	0.095444 | 0.004118 |
-    |	deposit_type_No Deposit |	0.086032 |	0.106844 |
-    |	arrival_date_day_of_month |	0.069602 |	0.002306 |
-    |	arrival_date_week_number |	0.054540 |	0.002246 |
-    |	total_of_special_requests |	0.050384 |	0.014383 |
-    |	agent |	0.043701 |	0.007353 |
-    |	stays_in_week_nights |	0.041340 |	0.002036 |
-    |	previous_cancellations |	0.038880 |	0.013721 |
+    ![DBSCAN](https://user-images.githubusercontent.com/63250608/173686436-c81fe950-283a-454b-80fc-b623826da6cc.png)
     
-    From the table above, we can find out that the top 3 are the most important features that affect the prediction of the model, which is lead time, deposit type and ADR. The lead time feature bear the heaviest weight in determining either the booking got cancelled or not.
+    DBSCAN algorithm was tested as well with the principal components. DBSCAN is more robust with outliers as it excluded them from any cluster. It detects there are 4 difference clusters / formulation exist in the dataset instead. In graph above, cluster -1 is consider as outliers.
     
-    ![leadtime_prediction_over_cancellation](https://user-images.githubusercontent.com/63250608/165361342-e1893c89-8a00-4ddb-aa95-16786c9418c3.png)
-
-    The vertical line indicates the 365 days, one whole year. As it is clearly can be seen that the model inidicates that the bookings rarely got cancelled if the lead time is below 365 days. While most of the bookings got cancelled after the lead time reached more than 1 year.
-    
-## Conclusion
- 
-  - Repeated guests tend to not cancel their bookings.
-  - Room price per night at both hotels are higher than other months during summer season (June - September).
-  - Family guests tend to stay longer than individuals / couple at both hotels.
-  - Popular length of stay for both hotels would be from 1 to 4 days. Surprisingly, choice of 7 days of stay is also well liked for Resort Hotel's guests as well.
-  - The number of guests cancel their booking is higher than non-cancelled guests when the lead time is more than 50 days.
-  - The number of booking is much higher in summer season (June - September) than other months. On top of that, bookings in winter season (December - March) is the least.
-  - The trained model predict the possibility guests cancelled the bookings is soaring once the lead time is more than 1 whole year (365 days)
-
+   
