@@ -1,6 +1,6 @@
 # Assessment for ACE Resources
 
-My name is Muhammad Faris bin Kamaludin. This repository contains Jupyter notebooks used for analyzing two case studies provided for ACE Resources pre-screening exercise. It is splitted into tasks as required by ACE Resources.
+My name is Muhammad Faris bin Kamaludin. This repository contains Jupyter notebooks used for analyzing three case studies provided for ACE Resources pre-screening exercise. It is splitted into  three tasks as required by ACE Resources.
 
 ## Dependencies
 
