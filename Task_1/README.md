@@ -32,29 +32,11 @@ C) A clustering test of your choice (unsupervised learning), to determine the di
   
     ![qqplot](https://user-images.githubusercontent.com/63250608/173684200-b4c28396-bea8-4e27-b3c9-c0ae2aa3e25a.png)
     
-  - **_Hypothesis Testing using Kruskal-Wallis between additives_**
-
-    From above graphs we can find out that Additive C has bimodal & most of the additives are not in normal distribution. Due to this, I have decided to perform non parametric test like **Kruskal-Wallis** test to find out if there is any significant difference between the additives or not. So the null hypothesis built on the current case is, all additives are the same while the alternative hypothesis is the additives have significant difference. 
-  
-    `KruskalResult(statistic=1707.6383280751495, pvalue=0.0)`
-    
-    As the P value is below significance level, which is 0.05, the null hypothesis is rejected. The test shows that the additives are indeed difference with each other. 
-    
   - **_Correlation between two highly correlated additives_**
 
     ![heatmap](https://user-images.githubusercontent.com/63250608/173684797-e70e96d0-3ab2-46ac-9f5a-a523d5222cb9.png)
     
-    Seems like Additive A & G is highly positively linear with correlation coefficient of value 0.81. Quantifying a relationship between two variables using the correlation coefficient only tells half the story, because it measures the strength of a relationship in samples only. If we obtained a different sample, we would obtain different correlation coefficient values, and therefore potentially different conclusions. 
-
-The alternative hypothesis is always what we are trying to prove, in our case, we try to prove that there is a significant correlation between additive A and G in the population (i.e. ρ ≠ 0).
-
-The null hypothesis is the hypothesis that we are trying to provide evidence against, in our case, we try to provide evidence againt the hypothesis that there is not a significant linear correlation between additive A and G in the population (i.e. ρ = 0)
-
-**Mann-Whitney U** Test is performed in hypothesis testing procedure.
-
-    `MannwhitneyuResult(statistic=0.0, pvalue=6.41324618896848e-72)`
-    
-    Since the p value of the Mann-Whitney U test is below the significance level, 0.05, we reject the null hypothesis in favor of the alternative. We conclude that the correlation is statically significant at population level.
+    Seems like Additive A & G has high value of correlation coefficient with value of 0.81. While Additive A & E has low value of correlation coefficient with value of -0.54. This show that A & G are positively correlated while A & E are negatively correlated. Since Additive A & G are two different additives, with assumption of these two are independent variables, this can cause multicollinearity which can cause instability to machine learning model, if we plan to create one.
     
 ## Model Development
   - Standard Scaler was used & decompose it into 2 principal components as part of dimensionality reduction procedure.
@@ -63,7 +45,6 @@ The null hypothesis is the hypothesis that we are trying to provide evidence aga
 
     ![pca_variance](https://user-images.githubusercontent.com/63250608/173685752-364e4c75-1633-4737-9d56-f6af79a39f19.PNG)
 
-    
     Principal component 1 & 2 was plotted into a graph. Principal component 1 & 2 were composed of 0.27% & 0.22% of variance from the original dataset. The total variance covered by both Principal Components were 0.5068%
     
   - Unsupervised learning was used to perform clustering
