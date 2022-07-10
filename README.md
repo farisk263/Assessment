@@ -1,5 +1,7 @@
 # Data Analysis
 
+This repository contain the data analysis of two project. It is splitted in two folders, Task_1 and Task_2. The details for each task are in the respective folder. Task_3 is about the analysis of words or NLP problem related tasks in a paragraph. Details for the respective problem is also in the respective folder.
+
 ## Dependencies
 
 If you do not have **Anaconda/miniconda** on your machine, download **miniconda** from [here](https://docs.conda.io/en/latest/miniconda.html).
